@@ -1,0 +1,209 @@
+body{ 
+    background-image:url('../images/background.jpg');
+    background-position:center;
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-attachment: fixed;
+    display:grid;
+    place-content: center;
+}
+
+body::after{ 
+    z-index:-1;
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    height:100%;
+    width:100%;
+    background:black;
+    opacity:0.6
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button
+{
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.container{ 
+    height:90vh;
+    width:40vw;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: space-evenly;
+    color:white;
+    font-size:1rem
+}
+
+button:hover{
+    transform: translateX(0) scale(1.2);
+}
+
+.container .heading{ 
+    width:100%;
+    height:10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.container .heading h1{
+    font-size:4rem;
+    background:linear-gradient(270deg, rgb(0, 81, 255),  red);
+    background-clip:text;
+    color:transparent;
+    text-align: center;
+}
+
+@property --a{
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 50%;
+}
+
+.container .heading i{
+    transform:scale(4);
+    background:linear-gradient(90deg, blue, red);
+    background-clip:text;
+    color:transparent;
+    transition: .5s;
+    background-position:var(--a) 0%;
+    background-size:200% 100%;
+    cursor:pointer; 
+    &:hover{
+       --a:0%;
+       transform:scale(5)
+    }
+}
+
+.container .heading i, h1{
+    margin:0 30px;
+}
+
+
+.container form{ 
+    height:80%;
+    width:100%;
+    position:relative;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.container form section{ 
+    width:100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+
+.container form section label{
+    text-align: center;
+}
+
+.container form section label:nth-child(1){ 
+    color:aqua;
+    font-size:1.5rem;
+    width:35%
+}
+
+.container form section label:nth-child(2){ 
+    color:white;
+    width:15%
+}
+
+.container form section input{ 
+    border:none;
+    background:none;
+    color:white;
+    text-align: center;
+    border-bottom:2px solid aqua;
+    outline:none;
+    width: 40%;
+}
+
+select{ 
+    background:transparent; 
+    color:white;
+    border:none;
+    border-bottom:2px solid aqua;
+    outline:none;
+    width:40%
+}
+
+select option{ 
+    color:white;
+    background-color:black;
+    text-align: center;
+    border:none;
+    outline: none;
+    cursor: pointer;
+}
+
+@media screen and (max-width:1500px){ 
+    .container .heading h1{ 
+        font-size:2.5rem
+    }
+}
+
+@media screen and (max-width:1200px){ 
+    .container .heading h1{ 
+        font-size:2rem
+    }
+
+    .container .heading i{ 
+        transform:scale(3)
+    }
+
+    .container .heading i:hover{ 
+        transform:scale(4)
+    }
+}
+
+@media screen and (max-width:1000px){ 
+    .container{
+        width:50vw
+    }
+
+    button{
+        font-size:1.5rem    
+    }
+}
+
+@media screen and (max-width:750px){ 
+     .container{
+        width:60vw
+    }
+
+    .container .heading h1{ 
+        font-size:1.5rem
+    }
+
+    .container .heading i{ 
+        transform:scale(2)
+    }
+
+    .container .heading i:hover{ 
+        transform:scale(3)
+    }
+
+    button{
+        font-size:1rem
+    }
+}
+
+@media screen and (max-width:500px){
+    .container{ 
+        font-size:0.5rem
+    }
+
+    .container form section label:nth-child(1){
+        font-size:1rem
+    }
+}

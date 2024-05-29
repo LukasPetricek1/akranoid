@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arkanoid - Start</title>
+    <link rel="icon" type="image/ico" href="images/favicon.ico" sizes="16x16">
+    <link rel="stylesheet" href="/styles/general.css">
+    <link rel="stylesheet" href="/styles/index.css">
+    <script src="https://kit.fontawesome.com/7842dc0936.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+    <section class="container">
+        <section class="heading">
+            <i id="start-game-icon" title="Start Game" class="fa-solid fa-gamepad"></i>
+            <h1>Arkanoid Game</h1>
+        </section>
+
+        <form id="content">
+             <section>
+                <label for="columns">Columns: </label>
+                <input required value="8" type="number" id="columns" min="8" max="20">
+                <label for="columns">(8-20)</label>
+            </section>
+
+            <section>
+                <label for="rows">Rows: </label>
+                <input required value="1" type="number" id="rows" min="1" max="8">
+                <label for="rows">(1-8)</label>
+            </section>
+
+            <section>
+                <label for="balls">Balls: </label>
+                <input required value="3" type="number" id="balls" min="1" max="3">
+                <label for="balls">(1-3)</label>
+            </section>
+
+            <section>
+                <label for="difficulty">Difficulty: </label>
+                <select required name="difficulty" id="difficulty">
+                    <option value="custom">Custom</option>
+                    <option selected value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                    <option value="impossible">Impossible</option>
+                </select>
+            </section>
+
+            <!-- <section>
+                <label for="time-limit">Time Limit: </label>
+                <input value="30" type="number" id="time-limit" min="5" max="180">
+                <label for="time-limit">(5-180)</label>
+            </section> -->
+
+            <button type="submit">Start a Game</button>
+
+        </form>
+    </section>
+
+    <script>
+        const startGameIcon = document.getElementById("start-game-icon")
+        const form = document.querySelector("form")
+        const inputs = document.querySelectorAll("form input")
+
+        const difficulty = document.getElementById("difficulty")
+        const columns = document.getElementById("columns")
+        const rows = document.getElementById("rows")
+        const balls = document.getElementById("balls")
+
+        const game_rules = { 
+            easy : { 
+                columns : 8,
+                rows: 1,
+                balls : 3,
+                speed : 1
+            } ,
+            medium : { 
+                columns : 12,
+                rows: 3,
+                balls : 2,
+                speed : 1.5
+            },
+            hard : { 
+                columns : 16,
+                rows: 5,
+                balls : 1,
+                speed : 2
+            },
+            impossible : { 
+                columns : 20,
+                rows: 8,
+                balls : 1,
+                speed : 2.5
+            }
+        }
+
+        const game_preferences = {
+            columns : 8,
+            rows : 1,
+            balls : 3, 
+            speed : 1
+        }
+        let certain_mode = true
+
+        inputs.forEach(input => {
+            input.onchange = function(e){ 
+                game_preferences[input.id] = Number(input.value)
+                certain_mode = false
+
+            if(difficulty.value !== "custom"){
+                if( Number(columns.value) === game_rules[difficulty.value].columns && 
+                Number(rows.value) === game_rules[difficulty.value].rows && 
+                Number(balls.value) === game_rules[difficulty.value].balls)
+                {
+                    certain_mode = true
+                }else{ 
+                    difficulty.value = "custom"
+                }
+            }
+            }
+        })
+
+        difficulty.addEventListener("change" , e => {
+            const value = difficulty.value
+
+
+            for(let item in game_rules){ 
+                if(value === item){ 
+                    game_preferences.columns = game_rules[item].columns
+                    game_preferences.rows = game_rules[item].rows
+                    game_preferences.balls = game_rules[item].balls
+
+                }
+            }
+
+                columns.value = game_preferences.columns
+                rows.value = game_preferences.rows
+                balls.value = game_preferences.balls
+        })
+
+        function startGame(e){ 
+            e.preventDefault()
+
+            localStorage.setItem("arkanoid-preferences" , JSON.stringify(
+                {
+                    ...game_preferences,
+                    mode : certain_mode ? difficulty.value : "custom",
+                    speed : game_rules[difficulty.value] ? game_rules[difficulty.value].speed : 1
+                }
+            ))
+
+            location.pathname = "/game.html"
+            
+        }
+
+        form.addEventListener("submit" , startGame)
+        startGameIcon.addEventListener("click" , startGame)
+    </script>
+    
+</body>
+</html>

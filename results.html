@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/general.css">
+    <link rel="stylesheet" href="/styles/results.css">
+    <link rel="icon" type="image/ico" href="images/favicon.ico" sizes="16x16">
+</head>
+<body>
+
+    <button id="new-game">New Game</button>
+
+    <table id="results-table">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Lifes</th>
+                <th>Time</th>
+                <th>Points</th>
+                <th>Date</th>
+                <th>Mode</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    
+    <script type="module">
+        import { localStorageSet } from "./scripts/tools.js"
+
+        function init(){ 
+            const table = document.querySelector("#results-table tbody")
+            const newGameButton = document.getElementById("new-game")
+            
+            let data = JSON.parse(localStorage.getItem("arkanoid-results"))
+            console.log(data)
+            
+           
+            if(data.length === 0){ 
+                location.pathname = "/index.html"
+            }else{ 
+                
+                newGameButton.addEventListener("click" , () => { 
+                    location.pathname = "/index.html"
+                })
+
+                for(let i = 0; i < data.length; i ++){ 
+                    let lifes = ""
+
+                    for(let j = 0; j < data[i].lifes; j++){
+                      lifes += "❤️"
+                    }
+                    
+                    const tr = document.createElement("tr")
+                        if(lifes.length === 0){
+                            tr.setAttribute("class" , "loser")
+                        }
+
+                        function removeItem(e){
+                            e.preventDefault()
+
+                            const message = `Remove Record #${i + 1} ?`
+                            const really = confirm(message)
+                            if(really){
+                                table.removeChild(this)
+                                data = data.filter(value => value.date !== data[i].date)
+                                if(data.length === 0){
+                                    location.pathname = "/index.html"
+                                }
+                                localStorageSet("arkanoid-results" , data)
+                            }
+                        }
+
+                        tr.addEventListener("contextmenu" , removeItem)
+                        tr.addEventListener("click" , removeItem)
+
+                        const NO = document.createElement("td")
+                        NO.innerText = "#" +  `${i + 1}`
+
+                        const Lifes = document.createElement("td")
+                        Lifes.innerText = lifes.length > 0 ? lifes : "💀" 
+
+                        const Time = document.createElement("td")
+                        Time.innerText = data[i].time + " s"
+
+                        const Points = document.createElement("td")
+                        Points.innerHTML = data[i].points + "<span style='font-size:1rem'> pts</span>"
+
+                        const Recorded = document.createElement("td")
+                        Recorded.innerText = data[i].date
+
+                        const Mode = document.createElement("td")
+                        Mode.innerText = data[i].mode
+                        
+                        tr.appendChild(NO)
+                        tr.appendChild(Lifes)
+                        tr.appendChild(Time)
+                        tr.appendChild(Points)
+                        tr.appendChild(Recorded)
+                        tr.appendChild(Mode)
+
+                    table.appendChild(tr)
+                }
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded" , init)
+    </script>
+
+</body>
+</html>

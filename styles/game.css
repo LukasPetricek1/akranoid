@@ -1,0 +1,100 @@
+:root{
+    --but:2rem
+}
+
+
+body{ 
+    background:black;
+    display: grid;
+    place-content: center;
+}
+
+canvas{ 
+    background-image:linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.2)), url("../images/background.jpg");
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:cover
+}
+
+nav{
+    position:absolute;
+    height: 9vh;
+    width:90vw;
+    display:flex;
+    align-items: center;
+    justify-content: space-around;
+    color:rgb(199, 199, 199);
+    padding-left:5vw;
+    padding-right:5vw;
+    font-size:1rem;
+}
+
+
+nav .fps h1::before{
+    content: "FPS: ";
+}
+
+nav .points h1::before{
+    content: "Points: "
+}
+
+nav .lifes h1::before{
+    content: "Lifes: "
+}
+
+nav .time h1::before{
+    content: "Time: "
+}
+
+nav .time h1::after{
+    content: " s"
+}
+
+button{ 
+    position:absolute;
+    bottom:100px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@media screen and (max-width:1200px){ 
+    :root{
+        --but:1.5rem
+    }
+}
+
+@media screen and (max-width:600px){
+    :root{ 
+        --but:1rem
+    }
+
+    nav{ 
+        font-size:0.6rem
+    }
+}
+
+.controls{ 
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%, -50%);
+    width:90vw;
+    height:100px;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.controls i{ 
+    height:50px;
+    width:50px;
+    color:white;
+    transition:.2s;
+    border-radius:50%;
+    display:grid;
+    place-content: center;
+}
+
+.controls i:active{
+    background:rgba(172, 172, 172, 0.5)
+}
